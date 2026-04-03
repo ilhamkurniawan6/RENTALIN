@@ -1,0 +1,45 @@
+================================PEMPROGRAMAN BERBASIS WEB=========================================
+Anggota Kelompok : 
+1.	Ilham Kurniawan (13182420086)
+2.	Trio Novan Maulana (13182420087)
+3.	Muhammad Risyaq Fardan (13182420052)
+==================================================================================================
+Judul Website : 
+Rentalin – Platform Penyewaan Barang Antar Mahasiswa
+Latar Belakang :
+Di lingkungan kampus, mahasiswa sering membutuhkan berbagai barang untuk menunjang kegiatan akademik maupun organisasi, seperti kamera, laptop, proyektor, tripod, atau peralatan lainnya. Namun, tidak semua mahasiswa memiliki barang tersebut karena harga yang cukup mahal jika harus membeli sendiri.
+Di sisi lain, banyak mahasiswa yang sebenarnya memiliki barang-barang tersebut tetapi jarang digunakan. Hal ini menyebabkan barang tersebut hanya tersimpan tanpa dimanfaatkan secara maksimal. Selain itu, proses meminjam atau menyewa barang antar mahasiswa biasanya masih dilakukan secara manual melalui teman atau media sosial, sehingga kurang terorganisir dan sering menimbulkan kesulitan dalam mencari barang yang dibutuhkan.
+Oleh karena itu, diperlukan sebuah platform berbasis website yang dapat mempertemukan mahasiswa yang ingin menyewakan barang dengan mahasiswa yang membutuhkan barang tersebut secara lebih mudah, cepat, dan terorganisir.
+Konsep Website :
+Website Rentalin merupakan sebuah platform penyewaan barang antar mahasiswa yang memungkinkan pengguna untuk menyewakan atau meminjam berbagai jenis barang yang dibutuhkan untuk kegiatan akademik maupun kegiatan lainnya di lingkungan kampus.
+Melalui website ini, mahasiswa dapat melihat daftar barang yang tersedia untuk disewa, mengetahui informasi mengenai harga sewa, deskripsi barang, serta melakukan pemesanan secara online. Selain itu, mahasiswa yang memiliki barang juga dapat menawarkan barangnya untuk disewakan kepada pengguna lain melalui sistem yang tersedia di dalam website.
+Dengan adanya website ini, proses penyewaan barang antar mahasiswa menjadi lebih praktis, terorganisir, dan dapat diakses kapan saja melalui internet.
+
+
+Masalah yang Diselesaikan :
+Website ini dibuat untuk membantu menyelesaikan beberapa permasalahan yang sering terjadi di lingkungan mahasiswa, antara lain:
+1.	Banyak mahasiswa membutuhkan barang tertentu tetapi tidak mampu membelinya karena harga yang mahal.
+2.	Banyak barang milik mahasiswa yang jarang digunakan sehingga tidak dimanfaatkan secara maksimal.
+3.	Proses penyewaan atau peminjaman barang antar mahasiswa masih dilakukan secara manual sehingga sulit menemukan barang yang dibutuhkan dengan cepat.
+4.	Tidak adanya platform khusus yang dapat mempertemukan mahasiswa yang ingin menyewakan barang dengan mahasiswa yang membutuhkan barang tersebut.
+Dengan adanya website Rentalin, diharapkan mahasiswa dapat dengan mudah menemukan barang yang ingin disewa serta memberikan kesempatan bagi pemilik barang untuk mendapatkan manfaat dari barang yang dimilikinya
+Fitur-Fitur Utama :
+1.	Registrasi dan Login Pengguna
+Memungkinkan mahasiswa untuk membuat akun dan masuk ke dalam sistem.
+2.	Daftar dan Detail Barang
+Menampilkan berbagai barang yang tersedia lengkap dengan informasi seperti nama, harga sewa, dan deskripsi.
+3.	Pencarian dan Filter Barang
+Memudahkan pengguna menemukan barang berdasarkan kata kunci, kategori, atau harga.
+4.	Sistem Penyewaan Barang
+Pengguna dapat melakukan pemesanan barang dengan memilih tanggal penyewaan.
+5.	Fitur Menyewakan Barang
+Pengguna dapat menambahkan barang miliknya untuk disewakan kepada pengguna lain.
+6.	Dashboard Pengguna
+Menampilkan data aktivitas pengguna seperti barang yang disewa, disewakan, dan riwayat transaksi.
+7.	Manajemen Admin
+Admin dapat mengelola data pengguna, barang, dan transaksi penyewaan.
+8.	Notifikasi Penyewaan
+Memberikan informasi terkait status penyewaan seperti permintaan, konfirmasi, dan pengingat pengembalian.
+9.	Fitur Chat (Pesan)
+Memungkinkan komunikasi langsung antara penyewa dan pemilik barang.
+
