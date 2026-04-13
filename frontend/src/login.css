@@ -1,0 +1,54 @@
+:root {
+  --text: #0f172a;
+  --muted: #5b6475;
+  --line: #d6e1f4;
+  --primary: #1d4ed8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background: radial-gradient(circle at 20% 0%, #dbeafe, transparent 35%),
+    radial-gradient(circle at 80% 100%, #c7f0ff, transparent 35%),
+    linear-gradient(165deg, #eff6ff, #f8fbff);
+}
+
+h1 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.auth-panel {
+  width: min(460px, 100%);
+  background: #fff;
+  border: 1px solid #e2e8f6;
+  border-radius: 18px;
+  padding: 1.4rem;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+}
+
+.auth-header {
+  margin-bottom: 1rem;
+}
+
+.auth-header p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+}
