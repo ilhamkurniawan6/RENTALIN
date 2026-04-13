@@ -95,3 +95,10 @@ a {
 .hero h1 span {
     color: var(--primary);
 }
+.hero p {
+    max-width: 720px;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+}
+
