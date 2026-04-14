@@ -95,3 +95,11 @@ a {
   padding: 0.68rem 0.72rem;
   font-size: 0.98rem;
 }
+
+.row-between{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.2rem;
+}
