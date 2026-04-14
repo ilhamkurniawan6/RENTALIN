@@ -103,3 +103,9 @@ a {
   gap: 0.7rem;
   margin-top: 0.2rem;
 }
+
+.checkbox-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
