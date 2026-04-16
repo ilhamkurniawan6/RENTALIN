@@ -133,3 +133,9 @@ a {
 .hidden{
   display: none;
 }
+
+.auth-foot{
+  margin: 1rem 0 0;
+  text-align: center;
+  color: #475569;
+}
