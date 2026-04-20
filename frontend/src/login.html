@@ -31,8 +31,20 @@
         <form id="loginForm" class="auth-form" novalidate>
           <label for="email">Alamat Email</label>
           <input id="email" name="email" type="email" placeholder="kamu@university.edu" required />
+           <label for="password">Kata Sandi</label>
+          <input id="password" name="password" type="password" placeholder="••••••••" required minlength="6" />
 
+          <div class="row-between">
+            <label class="checkbox-row">
+              <input type="checkbox" id="remember" name="remember" />
+              <span>Ingat saya</span>
+            </label>
+            <a href="#">Lupa kata sandi?</a>
+          </div>
 
+          <p id="formError" class="form-error hidden"></p>
+
+          <button class="btn btn-primary" type="submit">Masuk</button>
         </form>
         </section>
     </main>
