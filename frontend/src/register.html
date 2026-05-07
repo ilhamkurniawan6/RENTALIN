@@ -3,49 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-</head>
-<body>
-    <main class="auth-page">
-        <section class="auth-panel">
-            <a class="brand"href=""../home/index.html">
-            <span class="brand mark">R</span>
-            <span class="brand-text">Rentalin</span>
-        </a>
-
-<header class="auth-header">
-    <h1>BuatAkun</h1>
-    <p>Bergabung dengan komunitas penyewaan maahasiswa</p>
-</header>
-
-<form id="registerForm"class="auth-form"novalitadate>
-    <label for="name">Nama Lengkap</label>
-    <input id="name"name="name"type="text"placeholder="Budi Santoso"required/>
-
-    <label for="email">Email Universitas</label>
-    <input id="email"name="email"type="email"placeholder="kamu@university.edu"required/>
-
-    <label for="phone">NomorTelepon</label>
-    <input id="phone"name="phone"type="tel"placeholder="08xx-xxxx-xxxx"required/>
-
-    <label for="password">Kata Sandi</label>
-    <input id="password"name="password"type="password"placeholder="........"required minlength="6"/>
-
-    <label for="confirmPassword">Konfirmasi Kata Sandi</label>
-    <input id="confirmPassword"name="confirmPassword"type="password"placeholder="........"required minlength="6"/>
-
-    <label class="checkbox-row">
-        <input id="terms"type="checkbox"name="terms"required/>
-        <span>Saya setuju dengan Syarat Layanan dan Kebijakan Privasi</span>
-    </label>
-
-    <p id="formError"class="form-errorhidden"></p>
-
-    <button class="btn btn-primary"type="submit">Buat Akun</button>
-
-</form>
-
-    </main>
+    <title>Rentalin - Register(Vanilla)</title> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&Family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+        <link rel="stylesheet" href="../../styles/reset.css"/>
+        <link rel="stylesheet" href="../../styles/variables.css"/>
+        <link rel="stylesheet" href="../../styles/global.css"/>
+        <link rel="stylesheet" href="./styles/register.css"/>
     
-</body>
+    </head>
+    <body>
+        <main class="auth-page">
+            <section class="auth-panel">
+                <a class="brand"href=""../home/index.html">
+                    <span class="brand mark">R</span>
+                    <span class="brand-text">Rentalin</span>
+                </a>
+
+                <header class="auth-header">
+                    <h1>BuatAkun</h1>
+                    <p>Bergabung dengan komunitas penyewaan maahasiswa</p>
+                </header>
+
+                <form id="registerForm"class="auth-form"novalitadate>
+                    <label for="name">Nama Lengkap</label>
+                    <input id="name"name="name"type="text"placeholder="Budi Santoso"required/>
+
+                    <label for="email">Email Universitas</label>
+                    <input id="email"name="email"type="email"placeholder="kamu@university.edu"required/>
+
+                    <label for="phone">NomorTelepon</label>
+                    <input id="phone"name="phone"type="tel"placeholder="08xx-xxxx-xxxx"required/>
+
+                    <label for="password">Kata Sandi</label>
+                    <input id="password"name="password"type="password"placeholder="........"required minlength="6"/>
+
+                    <label for="confirmPassword">Konfirmasi Kata Sandi</label>
+                    <input id="confirmPassword"name="confirmPassword"type="password"placeholder="........"required minlength="6"/>
+
+                    <label class="checkbox-row">
+                        <input id="terms"type="checkbox"name="terms"required/>
+                        <span>Saya setuju dengan Syarat Layanan dan Kebijakan Privasi</span>
+                    </label>
+
+                    <p id="formError"class="form-errorhidden"></p>
+
+                    <button class="btn btn-primary"type="submit">Buat Akun</button>
+
+                </form>
+
+                <p class="auth-foot">
+                    Sudah punya akun?
+                    <a href="../login/index.html">Masuk</a>
+                </p>
+            </section>
+        </main>
+
+        <script src="../../service/api.js"></script>
+        <script src="./app.js"></script>
+    
+    </body>
+
 </html>
