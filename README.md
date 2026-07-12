@@ -1,85 +1,138 @@
 
-# Student Rental Marketplace UI (Vanilla)
+# Rentalin
 
-Production-style static frontend for a student rental marketplace.
-The project is implemented as a multi-page app using plain HTML, CSS, and JavaScript.
+Rentalin adalah aplikasi web marketplace penyewaan barang untuk mahasiswa, dengan alur login, dashboard pengguna, fitur tambah barang, mode dual-role, dan dashboard admin. Aplikasi ini dikembangkan sebagai project PHP + MySQL dengan tampilan multi-halaman berbasis HTML, CSS, dan JavaScript vanilla.
 
-Original design reference:
-https://www.figma.com/design/J4dbPSIOT0QUZQInE9Hcr6/Student-Rental-Marketplace-UI
+## Ringkasan Proyek
 
-## Features
+Proyek ini menggabungkan beberapa fitur utama:
 
-- Multi-page user flow: home, browse, detail, auth, dashboard, add-item, admin dashboard
-- Shared data module and localStorage persistence for custom items
-- Mobile-friendly layout across main pages
-- Relative routing suitable for static hosting
+- Pendaftaran dan login pengguna
+- Mode dual-role: Penyewa dan Penyewakan
+- Dashboard pengguna untuk melihat penyewaan, barang yang dipublikasikan, dan pengaturan profil
+- Form tambah barang dengan validasi dan upload gambar
+- Dashboard admin untuk mengelola pengguna, barang, dan transaksi
+- Pengujian end-to-end menggunakan Playwright
 
-## Project Structure
+## Fitur Utama
 
-`src/` contains all app pages and scripts.
+- Autentikasi pengguna dengan sesi PHP
+- Switch role antar mode Penyewa dan Penyewakan
+- Halaman utama, browse item, detail item, dashboard, add item, dan admin dashboard
+- Integrasi database MySQL/MariaDB melalui PHP mysqli
+- Upload avatar dan gambar barang
+- Endpoint API internal untuk operasi admin dan cleanup test
 
-- `src/pages/home/`
-- `src/pages/browse/`
-- `src/pages/item-detail/`
-- `src/pages/login/`
-- `src/pages/register/`
-- `src/pages/dashboard/`
-- `src/pages/admin-dashboard/`
-- `src/pages/add-item/`
-- `src/mock/`, `src/store/`, and `src/services/` (shared data and storage modules)
+## Stack Teknologi
 
-## Run Locally
+- PHP 8+
+- MySQL / MariaDB
+- HTML, CSS, JavaScript vanilla
+- Playwright untuk pengujian E2E
 
-Option 1:
-- Open `index.html` directly (auto-redirect to home page).
+## Struktur Proyek
 
-Option 2 (recommended):
-- Serve folder with a local static server (for consistent browser behavior).
+- src/pages/home, browse, item-detail, login, register, dashboard, admin-dashboard, add-item
+- src/pages/api untuk endpoint backend
+- src/services untuk koneksi database, autentikasi, session, dan helper
+- src/mock dan src/store untuk data dan state frontend
+- tests dan scripts untuk pengujian otomatis
 
-Example with Python:
+## Persiapan Lokal
+
+1. Pastikan lingkungan Anda sudah memiliki:
+   - Apache + PHP
+   - MySQL / MariaDB
+   - Node.js dan npm
+
+2. Impor database ke MySQL:
 
 ```bash
-python -m http.server 5500
+mysql -u root -p < database.sql
 ```
 
-Then open:
+Jika Anda memperbarui instalasi yang sudah ada, jalankan juga:
 
-`http://localhost:5500/`
+```bash
+mysql -u root -p < migration_dual_role.sql
+```
 
-Option 3 (for PHP login flow):
-- Run with PHP built-in server from repository root.
+3. Konfigurasi koneksi database.
+   Secara default, aplikasi akan mencoba menggunakan:
+   - host: localhost
+   - user: root
+   - database: testing_db
+
+   Anda juga dapat mengatur variabel environment berikut:
+
+```bash
+DB_HOST=localhost
+DB_USER=root
+DB_NAME=testing_db
+DB_PASS=root
+```
+
+4. Jalankan aplikasi dari folder proyek Anda melalui Laragon atau server PHP.
+
+## Menjalankan Aplikasi
+
+Jika menggunakan Laragon, tempatkan folder proyek di direktori www lalu buka:
+
+```text
+http://localhost/RENTALIN_TENSTING%20-%20Copy/
+```
+
+Alternatif lain:
 
 ```bash
 php -S localhost:8000
 ```
 
-Then open:
+Lalu buka:
 
-`http://localhost:8000/`
+```text
+http://localhost:8000/
+```
 
-## Deploy To GitHub Pages
+## Menjalankan Pengujian E2E
 
-Workflow file is included at `.github/workflows/deploy-pages.yml`.
+Install dependency dan browser Playwright:
 
-Before first deploy:
+```bash
+npm install
+npx playwright install
+```
 
-1. Push repository to GitHub.
-2. In repository settings, open `Settings > Pages`.
-3. Set source to `GitHub Actions`.
-4. Push to `main` branch to trigger deployment.
+Jalankan seluruh suite:
 
-## Repository Hygiene
+```bash
+npm run test:e2e
+```
 
-- `.editorconfig` for consistent formatting
-- `.gitattributes` for line ending normalization
-- `.gitignore` for system/editor/temp files
-- `CONTRIBUTING.md` for collaboration rules
-- `ATTRIBUTIONS.md` for third-party credits
+Untuk smoke test yang lebih cepat:
 
-## Pre-Push Checklist
+```bash
+npx playwright test tests/auth-role.spec.js tests/add-item.spec.js tests/admin-dashboard.spec.js
+```
 
-1. Verify all links across pages are working.
-2. Verify add-item flow persists data (localStorage) and appears in browse/detail/dashboard.
-3. Test responsive layout on mobile width.
-4. Confirm no console errors in browser devtools.
+Untuk membersihkan data test:
+
+```bash
+npm run cleanup:tests
+```
+
+> Perlu file .dev_token di root proyek untuk endpoint cleanup test. File ini bersifat lokal dan tidak boleh di-commit.
+
+## Dokumen Pendukung
+
+- DEV_SETUP.md: panduan setup dan testing lokal
+- DUAL_ROLE_GUIDE.md: penjelasan fitur dual-role
+- docs/PROJECT_STRUCTURE.md: struktur folder proyek
+- CONTRIBUTING.md: panduan kontribusi
+- ATTRIBUTIONS.md: daftar atribusi pihak ketiga
+
+## Catatan
+
+- Aplikasi ini dirancang untuk kebutuhan demo, pengembangan lokal, dan pengujian fitur marketplace penyewaan mahasiswa.
+- Untuk pengalaman terbaik, jalankan di lingkungan yang sudah menyediakan Apache dan MySQL secara bersamaan.
   
