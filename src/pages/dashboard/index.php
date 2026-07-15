@@ -60,6 +60,16 @@ $isLoggedIn = true;
           <p>Kelola penyewaan aktif, barang yang didaftarkan, dan profil akunmu.</p>
         </header>
 
+        <?php if (!empty($_SESSION['dashboard_message'])): ?>
+          <div class="flash-success"><?php echo htmlspecialchars($_SESSION['dashboard_message']); ?></div>
+          <?php unset($_SESSION['dashboard_message']); ?>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['dashboard_error'])): ?>
+          <div class="flash-error"><?php echo htmlspecialchars($_SESSION['dashboard_error']); ?></div>
+          <?php unset($_SESSION['dashboard_error']); ?>
+        <?php endif; ?>
+
         <section class="stats-grid" id="statsGrid"></section>
 
         <section class="dashboard-layout">
@@ -306,7 +316,13 @@ $isLoggedIn = true;
                     ${item.availability ? "Tersedia" : "Disewakan"}
                   </span>
                 </div>
-                <div class="row-price">${formatRupiah(item.pricePerDay)}/hari</div>
+                <div class="row-actions">
+                  <div class="row-price">${formatRupiah(item.pricePerDay)}/hari</div>
+                  <div class="row-action-buttons">
+                    <a href="./edit_barang.php?id=${item.id}" class="btn btn-sm btn-outline">Edit</a>
+                    <a href="./delete_barang.php?id=${item.id}" class="btn btn-sm btn-outline" onclick="return confirm('Hapus barang ini?');">Delete</a>
+                  </div>
+                </div>
               </article>
             `,
             )
@@ -666,7 +682,7 @@ $isLoggedIn = true;
 
 
           try {
-            rentalItems = await window.RENTAL_API.getItems();
+            rentalItems = await window.RENTAL_API.getItems({ scope: 'dashboard' });
           } catch (error) {
             rentalItems = [];
           }

@@ -1,0 +1,13 @@
+    {
+    "name": "rentalin-e2e",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "test:e2e": "playwright test"
+        ,"detect:baseurl": "node ./scripts/find-baseurl.js"
+        ,"cleanup:tests": "node ./scripts/cleanup-tests.js"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.40.0"
+    }
+    }

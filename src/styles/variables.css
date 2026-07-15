@@ -1,0 +1,23 @@
+:root {
+  --font-heading: "Sora", sans-serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+
+  --color-bg: #f3f5f9;
+  --color-surface: #ffffff;
+  --color-text: #111827;
+  --color-muted: #5b6473;
+
+  --color-primary: #0f766e;
+  --color-primary-strong: #115e59;
+  --color-accent: #f59e0b;
+
+  /* Accessibility helpers */
+  --color-primary-contrast: #ffffff;
+  --color-focus-ring: rgba(15,118,110,0.12);
+
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --container-max: 1120px;
+}

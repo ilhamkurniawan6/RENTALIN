@@ -30,6 +30,7 @@ $footerActionLabel = $isLoggedIn
     <link rel="stylesheet" href="../../styles/reset.css" />
     <link rel="stylesheet" href="../../styles/variables.css" />
     <link rel="stylesheet" href="../../styles/global.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
@@ -82,8 +83,16 @@ $footerActionLabel = $isLoggedIn
 
     <section class="section">
         <div class="container">
-        <h2 class="section-title">Jelajahi Berdasarkan Kategori</h2>
-        <div class="category-grid" id="categoryGrid"></div>
+        <div class="section-head">
+            <h2 class="section-title left">Jelajahi Berdasarkan Kategori</h2>
+            <div class="category-nav">
+                <button type="button" class="swiper-button-prev category-nav-btn" aria-label="Kategori sebelumnya">←</button>
+                <button type="button" class="swiper-button-next category-nav-btn" aria-label="Kategori berikut">→</button>
+            </div>
+        </div>
+        <div class="swiper category-swiper">
+            <div class="swiper-wrapper" id="categoryGrid"></div>
+        </div>
         </div>
     </section>
 
@@ -168,6 +177,7 @@ $footerActionLabel = $isLoggedIn
     <div class="footer-bottom">&copy; 2026 Rentalin. All rights reserved.</div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="../../mock/data.js"></script>
     <script src="../../store/storage.js"></script>
     <script src="../../services/api.js"></script>
@@ -215,16 +225,36 @@ $footerActionLabel = $isLoggedIn
             const markup = categories
                 .map(
                     (category) => `
-                    <a href="../browse/index.php" class="category-card">
-                        <div class="category-icon">${iconMap[category.icon] || "🔹"}</div>
-                        <h3>${category.name}</h3>
-                        <p>${category.count} barang</p>
-                    </a>
+                    <div class="swiper-slide">
+                        <a href="../browse/index.php" class="category-card">
+                            <div class="category-icon">${iconMap[category.icon] || "🔹"}</div>
+                            <h3>${category.name}</h3>
+                            <p>${category.count} barang</p>
+                        </a>
+                    </div>
                 `,
                 )
                 .join("");
 
             categoryGrid.innerHTML = markup;
+
+            if (window.Swiper) {
+                new Swiper('.category-swiper', {
+                    slidesPerView: 1,
+                    spaceBetween: 16,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    centeredSlides: false,
+                    breakpoints: {
+                        520: { slidesPerView: 1.4, spaceBetween: 16 },
+                        760: { slidesPerView: 1.9, spaceBetween: 18 },
+                        1024: { slidesPerView: 2.8, spaceBetween: 20 },
+                        1300: { slidesPerView: 3.6, spaceBetween: 24 },
+                    },
+                });
+            }
         }
 
         function renderFeatured(filterText = "") {
