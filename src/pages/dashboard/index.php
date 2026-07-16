@@ -431,17 +431,14 @@ $isLoggedIn = true;
               console.error('Failed to load general notifications:', error);
             }
 
-            // Load owner's pending rental requests if in penyewakan mode
-            if (currentRole === 'penyewakan') {
-              try {
-                const response = await fetch('../api/owner-notifications.php?action=list');
-                const data = await response.json();
-                if (data.success && Array.isArray(data.notifications)) {
-                  allNotifications = allNotifications.concat(data.notifications);
-                }
-              } catch (error) {
-                console.error('Failed to load owner notifications:', error);
+            try {
+              const response = await fetch('../api/owner-notifications.php?action=list');
+              const data = await response.json();
+              if (data.success && Array.isArray(data.notifications)) {
+                allNotifications = allNotifications.concat(data.notifications);
               }
+            } catch (error) {
+              console.error('Failed to load owner notifications:', error);
             }
 
             notifications = allNotifications.sort((a, b) => {
