@@ -240,20 +240,32 @@ $footerActionLabel = $isLoggedIn
 
             if (window.Swiper) {
                 new Swiper('.category-swiper', {
-                    slidesPerView: 1,
-                    spaceBetween: 16,
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                    centeredSlides: false,
-                    breakpoints: {
-                        520: { slidesPerView: 1.4, spaceBetween: 16 },
-                        760: { slidesPerView: 1.9, spaceBetween: 18 },
-                        1024: { slidesPerView: 2.8, spaceBetween: 20 },
-                        1300: { slidesPerView: 3.6, spaceBetween: 24 },
-                    },
-                });
+    slidesPerView: 5,
+    spaceBetween: 24,
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    centeredSlides: false,
+    watchOverflow: true,
+    breakpoints: {
+        0: {
+            slidesPerView: 1.2
+        },
+        576: {
+            slidesPerView: 2
+        },
+        768: {
+            slidesPerView: 3
+        },
+        1024: {
+            slidesPerView: 4
+        },
+        1280: {
+            slidesPerView: 5
+        }
+    }
+});
             }
         }
 
