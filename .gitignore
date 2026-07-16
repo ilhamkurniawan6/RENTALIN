@@ -51,6 +51,7 @@ __pycache__/
 # DATABASE
 # ========================
 *.sql
+!database/*.sql
 *.sqlite
 *.db
 
