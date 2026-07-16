@@ -335,6 +335,7 @@ $isLoggedIn = true;
             'item_updated': '✏️',
             'item_deleted': '🗑️',
             'rental_status_changed': '📦',
+            'pending_rental': '🔔',
           };
 
           if (!notifications.length) {
@@ -347,21 +348,60 @@ $isLoggedIn = true;
 
           notificationsList.innerHTML = notifications
             .map(
-              (notif) => `
-              <article class="notification-card ${notif.is_read ? 'is-read' : ''}">
-                <div class="notification-content">
-                  <div class="notification-header">
-                    <span class="notification-icon">${typeIcons[notif.type] || '📬'}</span>
-                    <h4 class="notification-title">${notif.title}</h4>
-                  </div>
-                  <p class="notification-message">${notif.message || ''}</p>
-                  <small class="notification-time">${new Date(notif.created_at).toLocaleDateString('id-ID')}</small>
-                </div>
-                <button type="button" class="btn btn-sm btn-outline js-delete-notification" data-notification-id="${notif.id}">Hapus</button>
-              </article>
-            `,
+              (notif) => {
+                // Special rendering for pending rental requests
+                if (notif.type === 'pending_rental') {
+                  const start = new Date(notif.startDate);
+                  const end = new Date(notif.endDate);
+                  return `
+                    <article class="notification-card pending-rental">
+                      <div class="notification-content">
+                        <div class="notification-header">
+                          <span class="notification-icon">${typeIcons[notif.type]}</span>
+                          <div>
+                            <h4 class="notification-title">${notif.renterName} ingin menyewa "${notif.itemName}"</h4>
+                            <p class="notification-message">
+                              📅 ${start.toLocaleDateString('id-ID')} - ${end.toLocaleDateString('id-ID')} (${notif.days} hari)<br/>
+                              💰 ${formatRupiah(notif.totalPrice)}
+                            </p>
+                          </div>
+                        </div>
+                        <p class="notification-meta">📧 ${notif.renterEmail}</p>
+                        <small class="notification-time">${new Date(notif.createdAt).toLocaleDateString('id-ID')}</small>
+                      </div>
+                      <div class="notification-actions">
+                        <button type="button" class="btn btn-sm btn-primary js-approve-rental" data-rental-id="${notif.rentalId}">✓ Setujui</button>
+                        <button type="button" class="btn btn-sm btn-outline js-reject-rental" data-rental-id="${notif.rentalId}">✗ Tolak</button>
+                      </div>
+                    </article>
+                  `;
+                }
+
+                // Regular notification rendering
+                return `
+                  <article class="notification-card ${notif.is_read ? 'is-read' : ''}">
+                    <div class="notification-content">
+                      <div class="notification-header">
+                        <span class="notification-icon">${typeIcons[notif.type] || '📬'}</span>
+                        <h4 class="notification-title">${notif.title}</h4>
+                      </div>
+                      <p class="notification-message">${notif.message || ''}</p>
+                      <small class="notification-time">${new Date(notif.created_at).toLocaleDateString('id-ID')}</small>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline js-delete-notification" data-notification-id="${notif.id}">Hapus</button>
+                  </article>
+                `;
+              }
             )
             .join("");
+
+          // Attach event listeners for approve/reject buttons
+          document.querySelectorAll('.js-approve-rental').forEach(btn => {
+            btn.addEventListener('click', (e) => handleApproveRental(e.target));
+          });
+          document.querySelectorAll('.js-reject-rental').forEach(btn => {
+            btn.addEventListener('click', (e) => handleRejectRental(e.target));
+          });
 
           updateNotificationBadge();
         }
@@ -378,12 +418,39 @@ $isLoggedIn = true;
 
         async function loadNotifications() {
           try {
-            const response = await fetch('../api/notifications.php?page=1&limit=20');
-            const data = await response.json();
-            if (data.success && Array.isArray(data.notifications)) {
-              notifications = data.notifications;
-              renderNotifications();
+            let allNotifications = [];
+
+            // Load general notifications
+            try {
+              const response = await fetch('../api/notifications.php?page=1&limit=20');
+              const data = await response.json();
+              if (data.success && Array.isArray(data.notifications)) {
+                allNotifications = allNotifications.concat(data.notifications);
+              }
+            } catch (error) {
+              console.error('Failed to load general notifications:', error);
             }
+
+            // Load owner's pending rental requests if in penyewakan mode
+            if (currentRole === 'penyewakan') {
+              try {
+                const response = await fetch('../api/owner-notifications.php?action=list');
+                const data = await response.json();
+                if (data.success && Array.isArray(data.notifications)) {
+                  allNotifications = allNotifications.concat(data.notifications);
+                }
+              } catch (error) {
+                console.error('Failed to load owner notifications:', error);
+              }
+            }
+
+            notifications = allNotifications.sort((a, b) => {
+              const timeA = new Date(a.createdAt || a.created_at).getTime();
+              const timeB = new Date(b.createdAt || b.created_at).getTime();
+              return timeB - timeA;
+            });
+
+            renderNotifications();
           } catch (error) {
             console.error('Failed to load notifications:', error);
           }
@@ -431,6 +498,86 @@ $isLoggedIn = true;
             }
           } catch (error) {
             console.error('Failed to mark all as read:', error);
+          }
+        }
+
+        async function handleApproveRental(button) {
+          const rentalId = Number(button.dataset.rentalId || 0);
+          if (!rentalId) return;
+
+          button.disabled = true;
+          const originalText = button.textContent;
+          button.textContent = '⏳ Memproses...';
+
+          try {
+            const response = await fetch('../api/owner-notifications.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify({ 
+                rental_id: rentalId,
+                action: 'approve'
+              }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+              notifications = notifications.filter((n) => n.rentalId !== rentalId);
+              renderNotifications();
+              alert('✓ Request penyewaan berhasil disetujui!');
+            } else {
+              alert('Gagal: ' + (data.message || 'Unknown error'));
+              button.disabled = false;
+              button.textContent = originalText;
+            }
+          } catch (error) {
+            console.error('Failed to approve rental:', error);
+            alert('Gagal memproses request. Coba lagi.');
+            button.disabled = false;
+            button.textContent = originalText;
+          }
+        }
+
+        async function handleRejectRental(button) {
+          const rentalId = Number(button.dataset.rentalId || 0);
+          if (!rentalId) return;
+
+          if (!confirm('Yakin ingin menolak request penyewaan ini?')) return;
+
+          button.disabled = true;
+          const originalText = button.textContent;
+          button.textContent = '⏳ Memproses...';
+
+          try {
+            const response = await fetch('../api/owner-notifications.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify({ 
+                rental_id: rentalId,
+                action: 'reject'
+              }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+              notifications = notifications.filter((n) => n.rentalId !== rentalId);
+              renderNotifications();
+              alert('Request penyewaan sudah ditolak.');
+            } else {
+              alert('Gagal: ' + (data.message || 'Unknown error'));
+              button.disabled = false;
+              button.textContent = originalText;
+            }
+          } catch (error) {
+            console.error('Failed to reject rental:', error);
+            alert('Gagal memproses request. Coba lagi.');
+            button.disabled = false;
+            button.textContent = originalText;
           }
         }
 
@@ -513,6 +660,8 @@ $isLoggedIn = true;
             if (result.success) {
               currentRole = newRole;
               updateRoleUI();
+              // Reload notifications when role changes (especially for penyewakan mode)
+              await loadNotifications();
               console.log('Role switched to:', newRole, result);
             } else {
               console.warn('Role switch failed:', result);

@@ -590,7 +590,7 @@ a {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
-}
+
 
 @media (max-width: 760px) {
   .menu-toggle {

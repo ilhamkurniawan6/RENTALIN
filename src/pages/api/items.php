@@ -84,8 +84,22 @@ function rentalin_fetch_items(mysqli $conn, ?int $itemId = null, ?array $current
     }
 
     if (!empty($filters['params'])) {
-        $bindParams = array_merge([$filters['types']], $filters['params']);
-        call_user_func_array([$stmt, 'bind_param'], $bindParams);
+        $types = $filters['types'];
+        $count = count($filters['params']);
+        
+        if ($count === 1) {
+            $stmt->bind_param($types, $filters['params'][0]);
+        } elseif ($count === 2) {
+            $stmt->bind_param($types, $filters['params'][0], $filters['params'][1]);
+        } elseif ($count > 2) {
+            // For more params, use call_user_func_array with proper reference handling
+            $params = [$types];
+            foreach ($filters['params'] as &$param) {
+                $params[] = &$param;
+            }
+            unset($param);
+            call_user_func_array([$stmt, 'bind_param'], $params);
+        }
     }
 
     $stmt->execute();
