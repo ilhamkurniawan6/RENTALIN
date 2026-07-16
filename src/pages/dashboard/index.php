@@ -421,15 +421,16 @@ $isLoggedIn = true;
             let allNotifications = [];
 
             // Load general notifications
-            try {
-              const response = await fetch('../api/notifications.php?page=1&limit=20');
-              const data = await response.json();
-              if (data.success && Array.isArray(data.notifications)) {
-                allNotifications = allNotifications.concat(data.notifications);
-              }
-            } catch (error) {
-              console.error('Failed to load general notifications:', error);
+            // Load owner's pending rental requests (selalu dimuat, gak peduli role)
+          try {
+            const response = await fetch('../api/owner-notifications.php?action=list');
+            const data = await response.json();
+            if (data.success && data.data && Array.isArray(data.data.notifications)) {
+              allNotifications = allNotifications.concat(data.data.notifications);
             }
+          } catch (error) {
+            console.error('Failed to load owner notifications:', error);
+          }
 
             try {
               const response = await fetch('../api/owner-notifications.php?action=list');
