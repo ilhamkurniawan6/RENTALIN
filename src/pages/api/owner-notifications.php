@@ -181,6 +181,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $stmt->close();
 
+     if ($action === 'approve') {
+        $itemUpdateStmt = $conn->prepare('UPDATE items SET availability = 0 WHERE id = ? LIMIT 1');
+        if ($itemUpdateStmt) {
+            $itemId = (int) $rental['item_id'];
+            $itemUpdateStmt->bind_param('i', $itemId);
+            $itemUpdateStmt->execute();
+            $itemUpdateStmt->close();
+        }
+    }
+
     // ------------------------------------------------------------------
     // Kirim notif ke penyewa (renter) soal hasil approve/reject
     // ------------------------------------------------------------------
@@ -193,12 +203,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ? "Permintaan sewa \"$itemName\" kamu telah disetujui pemilik."
         : "Permintaan sewa \"$itemName\" kamu ditolak pemilik.";
 
-    $notifStmt = $conn->prepare('INSERT INTO notifications (user_id, item_id, type, title, message) VALUES (?, ?, ?, ?, ?)');
-    if ($notifStmt) {
-        $notifStmt->bind_param('iisss', $renterId, $itemId, $notifType, $notifTitle, $notifMsg);
-        $notifStmt->execute();
-        $notifStmt->close();
-    }
+    $notifStmt = $conn->prepare('INSERT INTO notifications (user_id, rental_id, item_id, type, title, message) VALUES (?, ?, ?, ?, ?, ?)');
+        if ($notifStmt) {
+            $notifStmt->bind_param('iiisss', $renterId, $rentalId, $itemId, $notifType, $notifTitle, $notifMsg);
+            $notifStmt->execute();
+            $notifStmt->close();
+        }
     
     $message = ($action === 'approve') 
         ? 'Request penyewaan berhasil disetujui!' 

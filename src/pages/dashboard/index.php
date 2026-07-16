@@ -416,30 +416,31 @@ $isLoggedIn = true;
           }
         }
 
-        async function loadNotifications() {
-          try {
-            let allNotifications = [];
+async function loadNotifications() {
+  try {
+    let allNotifications = [];
 
-            // Load general notifications
-          try {
-            const response = await fetch('../api/owner-notifications.php?action=list');
-            const data = await response.json();
-            if (data.success && data.data && Array.isArray(data.data.notifications)) {
-              allNotifications = allNotifications.concat(data.data.notifications);
-            }
-          } catch (error) {
-            console.error('Failed to load owner notifications:', error);
-          }
+    // Load general notifications (status booking: disetujui/ditolak, dll)
+    try {
+      const response = await fetch('../api/notifications.php?action=list&page=1&limit=20');
+      const data = await response.json();
+      if (data.success && Array.isArray(data.notifications)) {
+        allNotifications = allNotifications.concat(data.notifications);
+      }
+    } catch (error) {
+      console.error('Failed to load general notifications:', error);
+    }
 
-            try {
-              const response = await fetch('../api/owner-notifications.php?action=list');
-              const data = await response.json();
-              if (data.success && Array.isArray(data.notifications)) {
-                allNotifications = allNotifications.concat(data.notifications);
-              }
-            } catch (error) {
-              console.error('Failed to load owner notifications:', error);
-            }
+    // Load owner's pending rental requests (selalu dimuat, gak peduli role)
+    try {
+      const response = await fetch('../api/owner-notifications.php?action=list');
+      const data = await response.json();
+      if (data.success && data.data && Array.isArray(data.data.notifications)) {
+        allNotifications = allNotifications.concat(data.data.notifications);
+      }
+    } catch (error) {
+      console.error('Failed to load owner notifications:', error);
+    }
 
             notifications = allNotifications.sort((a, b) => {
               const timeA = new Date(a.createdAt || a.created_at).getTime();

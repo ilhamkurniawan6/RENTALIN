@@ -203,7 +203,9 @@
         const response = await global.fetch(`../api/items.php?id=${encodeURIComponent(id)}`, {
             method: "GET",
             credentials: "same-origin",
+            chache: "no-store",
         });
+        
         const text = await response.text();
         const data = text ? JSON.parse(text) : null;
 
