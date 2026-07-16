@@ -649,3 +649,38 @@ max-width:220px;
     grid-template-columns: 1fr;
   }
 }
+
+/* --- Fix section-head: judul di tengah, nav button rapi di kanan --- */
+.section-head {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-head .section-title.left {
+  text-align: center;
+  grid-column: 2;
+}
+
+.section-head .category-nav {
+  grid-column: 3;
+  justify-self: end;
+}
+
+/* --- Fix tombol swiper yang "kabur" ke pinggir layar --- */
+.category-nav-btn.swiper-button-prev,
+.category-nav-btn.swiper-button-next {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  margin-top: 0 !important;
+  transform: none !important;
+}
+
+/* Swiper otomatis nambahin ikon panah bawaan lewat ::after, kita hilangkan
+   karena tombol lu udah ada teks panah "←" "→" sendiri di HTML */
+.category-nav-btn::after {
+  content: none !important;
+}
