@@ -421,7 +421,6 @@ $isLoggedIn = true;
             let allNotifications = [];
 
             // Load general notifications
-            // Load owner's pending rental requests (selalu dimuat, gak peduli role)
           try {
             const response = await fetch('../api/owner-notifications.php?action=list');
             const data = await response.json();

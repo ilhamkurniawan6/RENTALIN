@@ -130,8 +130,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     // Verify this rental is for an item owned by this user
+    // (nambahin renter_id, item_id, item_name buat keperluan notif nanti)
     $stmt = $conn->prepare('
-        SELECT r.id, r.status, i.user_id AS owner_id
+        SELECT r.id, r.status, r.user_id AS renter_id, r.item_id,
+               i.user_id AS owner_id, i.name AS item_name
         FROM rentals r
         JOIN items i ON r.item_id = i.id
         WHERE r.id = ?
@@ -178,6 +180,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     $stmt->close();
+
+    // ------------------------------------------------------------------
+    // Kirim notif ke penyewa (renter) soal hasil approve/reject
+    // ------------------------------------------------------------------
+    $renterId = (int) $rental['renter_id'];
+    $itemId = (int) $rental['item_id'];
+    $itemName = (string) $rental['item_name'];
+    $notifType = 'rental_status_changed';
+    $notifTitle = ($action === 'approve') ? 'Booking Disetujui' : 'Booking Ditolak';
+    $notifMsg = ($action === 'approve')
+        ? "Permintaan sewa \"$itemName\" kamu telah disetujui pemilik."
+        : "Permintaan sewa \"$itemName\" kamu ditolak pemilik.";
+
+    $notifStmt = $conn->prepare('INSERT INTO notifications (user_id, item_id, type, title, message) VALUES (?, ?, ?, ?, ?)');
+    if ($notifStmt) {
+        $notifStmt->bind_param('iisss', $renterId, $itemId, $notifType, $notifTitle, $notifMsg);
+        $notifStmt->execute();
+        $notifStmt->close();
+    }
     
     $message = ($action === 'approve') 
         ? 'Request penyewaan berhasil disetujui!' 
