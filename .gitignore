@@ -52,7 +52,6 @@ __pycache__/
 # ========================
 *.sql
 *.sqlite
-*.db
 
 # ========================
 # UPLOAD / GENERATED FILES
